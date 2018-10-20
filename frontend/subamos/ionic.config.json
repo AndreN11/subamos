@@ -1,0 +1,7 @@
+{
+  "name": "subamos",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular"
+}
