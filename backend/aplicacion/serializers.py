@@ -3,20 +3,25 @@ from django.contrib.auth.models import User
 from rest_framework import serializers
 
 class UsuarioSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True)
-    fecha_nacimiento = serializers.DateField(required=False,source="usuario.fecha_nacimiento")
-    perfil = serializers.CharField(max_length=500, allow_blank=True,source="usuario.perfil")
- 
+    username =serializers.CharField(write_only=True, source="user.username")
+    password = serializers.CharField(write_only=True, source= "user.password")
+    nombre = serializers.CharField(required = False)
+    apellido = serializers.CharField(required = False)
+    correo = serializers.CharField(required = False)
+    fecha_nacimiento = serializers.DateField(required=False)
+    perfil = serializers.CharField(required=False)
+
     class Meta:
         model = User
-        fields = ('id', 'username', 'password', 'first_name', 'last_name', 'email', 'perfil','fecha_nacimiento')
-    def create(self, validated_data, instance=None):
-        profile_data = validated_data.pop('usuario')
-        user = User.objects.create(**validated_data)
-        user.set_password(validated_data['password'])
+        fields = ('id', 'username', 'password', 'nombre', 'apellido', 'correo','fecha_nacimiento', 'perfil') 
+    def create(self,validated_data,instance=None):
+        user_data = validated_data.pop('user')
+        user = User.objects.create(**user_data)
+        user.set_password(user_data['password'])
         user.save()
-        Usuario.objects.update_or_create(user=user,**profile_data)
-        return user
+        Usuario.objects.update_or_create(user=user,**validated_data)
+        usuario = Usuario.objects.get(user=user)
+        return usuario
 
 class CategoriaSerializer(serializers.ModelSerializer):
    class Meta:

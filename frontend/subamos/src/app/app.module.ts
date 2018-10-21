@@ -11,6 +11,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { RestProvider } from '../providers/rest/rest';
 import { CategoriasPage } from '../pages/categorias/categorias';
 import { RegistroPage } from '../pages/registro/registro';
+import { Geolocation } from '@ionic-native/geolocation';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { RegistroPage } from '../pages/registro/registro';
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     HttpClient,
-    RestProvider
+    RestProvider,
+    Geolocation
   ]
 })
 export class AppModule {}
